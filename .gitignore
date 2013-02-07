@@ -1,0 +1,15 @@
+id_rt
+a.out
+
+2
+3
+\\
+
+*.[oa]
+
+*.sw[op]
+
+*.log
+.__afs*
+
+input
