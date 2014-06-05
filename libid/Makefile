@@ -27,7 +27,10 @@ SRCS	=	error.c			\
 		id_wordtabfree.c	\
 		m3_inverse.c		\
 		m4_inverse.c		\
-		m3_mult_matcol.c
+		m3_mult_matcol.c	\
+		m4_pointmult.c		\
+		m4_rotation.c		\
+		m4_mult_matcol.c
 
 OBJS	=	$(SRCS:.c=.o)
 

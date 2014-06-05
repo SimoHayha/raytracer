@@ -1,18 +1,35 @@
 NAME	=	id_rt
 
 OBJS	=	$(SRCS:.c=.o)
-SRCS	=	main.c		\
-		init.c		\
-		setpixel.c	\
-		run.c		\
-		vector.c	\
-		object.c	\
-		camera.c	\
-		sphere.c	\
-		input.c
+SRCS	=	run.c			\
+		main.c			\
+		init.c			\
+		color.c			\
+		clean.c			\
+		plane.c			\
+		light.c			\
+		pixel.c			\
+		queue.c			\
+		scene.c			\
+		vector.c		\
+		sphere.c		\
+		camera.c		\
+		thread.c		\
+		matrix.c		\
+		object.c		\
+		rotation.c		\
+		cylinder.c		\
+		raytracer.c		\
+		plane_utils.c		\
+		translation.c		\
+		antialiasing.c		\
+		math_function.c		\
+		calculate_ray.c		\
+		cylinder_utils.c	\
+		raytracer_utils.c	\
 
-LDFLAGS	=	-L./libid/ -lid -lm -pthread `sdl-config --libs`
-CFLAGS	=	-W -Wall -Werror -Wextra `sdl-config --cflags`
+LDFLAGS	=	-L./libid/ -lid -lm -lidX -pthread
+CFLAGS	=	-W -Wall -Werror -Wextra
 
 CC	=	gcc
 LIBID	=	libid/libid.a

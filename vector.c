@@ -1,43 +1,40 @@
 #include <math.h>
-#include <stdlib.h>
 
 #include "libid/lib.h"
 #include "vector.h"
 
-void		vector_normalize(Vector3D* v)
-{
-	double	id;
+#include <stdio.h>
 
-	id =  1 / sqrt((v->x * v->x) + (v->y * v->y) + (v->z * v->z));
-	v->x = v->x * id;
-	v->y = v->y * id;
-	v->z = v->z * id;
+void	prod_vector(t_vector* a, t_vector* b, t_vector* c)
+{
+	c->x = a->y * b->z - a->z * b->y;
+	c->y = a->z * b->x - a->x * b->z;
+	c->z = a->x * b->y - a->y * b->x;
 }
 
-double		vector_dot(Vector3D* v1, Vector3D* v2)
+void	get_vector(t_point* a, t_point* b, t_vector* v)
+{
+	v->x = b->x - a->x;
+	v->y = b->y - a->y;
+	v->z = b->z - a->z;
+}
+
+double	norme(t_vector* v)
+{
+	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
+}
+
+void	normalize(t_vector* v)
+{
+	double	norme_v;
+
+	norme_v = norme(v);
+	v->x = v->x / norme_v;
+	v->y = v->y / norme_v;
+	v->z = v->z / norme_v;
+}
+
+double	dot_vector(t_vector* v1, t_vector* v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
-}
-
-Vector3D*	vector_copy(Vector3D* v)
-{
-	Vector3D*	copy;
-
-	copy = malloc(sizeof(*copy));
-	if (!copy)
-		return (NULL);
-	return (id_memcpy(copy, v, sizeof(*copy)));
-}
-
-Vector3D*	vector_sub(Vector3D* v1, Vector3D* v2)
-{
-	Vector3D*	sub;
-
-	sub = malloc(sizeof(*sub));
-	if (!sub)
-		return (NULL);
-	sub->x = v1->x - v2->x;
-	sub->y = v1->y - v2->y;
-	sub->z = v1->z - v2->z;
-	return (sub);
 }

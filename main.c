@@ -1,23 +1,18 @@
-#include <SDL/SDL.h>
-
-#include "libid/lib.h"
-#include "env.h"
+#include "clean.h"
 #include "init.h"
+#include "env.h"
 #include "run.h"
 
 int	main(int argc, char** argv)
 {
 	t_env	env;
 
-	if (init(argc, argv, &env))
+	if (init(argc, argv, &env) || run(&env))
 	{
-		id_print("Error in init\n");
-		return (1);
+		clean(&env);
+		return (-1);
 	}
-	if (run(&env))
-	{
-		id_print("Error in runtime\n");
-		return (1);
-	}
+	id_print("\n");
+	clean(&env);
 	return (0);
 }

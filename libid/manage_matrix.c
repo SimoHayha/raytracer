@@ -41,7 +41,7 @@ void	sud_matrix(t_matrice* m1, t_matrice* m2, t_matrice* dest)
 	dest->p.homogeneous = m1->p.homogeneous - m2->p.homogeneous;
 }
 
-void	mat_mult(MATRICE* mat, t_point* p, t_point* dest)
+void	mat_mult(t_matrice* mat, t_point* p, t_point* dest)
 {
 	dest->x = (mat->a.x * p->x) +
 		  (mat->b.x * p->y) +
@@ -61,7 +61,7 @@ void	mat_mult(MATRICE* mat, t_point* p, t_point* dest)
 			    (mat->p.homogeneous * p->homogeneous);
 }
 
-void	get_mat_translation(MATRICE* mat, t_point* p)
+void	get_mat_translation(t_matrice* mat, t_point* p)
 {
 	id_memset(mat, 0, sizeof(*mat));
 	mat->a.x = 1;
@@ -73,7 +73,7 @@ void	get_mat_translation(MATRICE* mat, t_point* p)
 	mat->p.homogeneous = p->homogeneous;
 }
 
-void	get_mat_rotation(MATRICE* mat, t_point* a, t_point* b, t_point* c)
+void	get_mat_rotation(t_matrice* mat, t_point* a, t_point* b, t_point* c)
 {
 	id_memset(mat, 0, sizeof(*mat));
 	mat->a.x = a->x;

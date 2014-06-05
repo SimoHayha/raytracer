@@ -1,101 +1,55 @@
-#include <SDL/SDL.h>
-#include <math.h>
+#include <libidX.h>
+#include <stdlib.h>
 #include <stdio.h>
 
+#include "math_function.h"
+#include "calculate_ray.h"
+#include "translation.h"
+#include "raytracer.h"
 #include "libid/lib.h"
-#include "env.h"
+#include "thread.h"
+#include "object.h"
 #include "vector.h"
+#include "matrix.h"
+#include "scene.h"
+#include "color.h"
 #include "run.h"
+#include "env.h"
 
-void	paint_pixel(void* screen, Object* object, int pixel_x, int pixel_y,
-		    double distance)
+void	render(t_env* env)
 {
-	(void)distance;
-	setpixel(pixel_x, pixel_y, object->red, object->green, object->blue,
-		 screen);
-}
+	int		i;
+	int		max;
 
-void	do_intersection(t_env* env, Ray* ray, int pixel_x, int pixel_y)
-{
-	int	is_inter;
-	double	distance;
-	Object*	objects;
-
-	objects = env->objects;
-	is_inter = 0;
-	while (objects)
+	id_print("\nRendering ...\n");
+	max = env->width * env->height;
+	i = 0;
+	while (i < max)
 	{
-		distance = 20000;
-		if (objects->intersect && objects->type != OBJ_CAMERA)
-			is_inter = objects->intersect(objects->object, ray,
-						      &distance);
-		if (is_inter)
-			paint_pixel(env->screen, objects, pixel_x, pixel_y,
-				    distance);
-		objects = objects->next;
+		idx_setpixel(env->screen, env->pixels[i].r, env->pixels[i].g, env->pixels[i].b, env->pixels[i].pixel_x, env->pixels[i].pixel_y);
+		i = i + 1;
 	}
 }
 
-void	throwray(t_env* env, Vector3D* origin, int pixel_x, int pixel_y)
+void	join_thread(t_env* env)
 {
-	Vector3D	v;
-	Ray		ray;
+	int	i;
+	void*	ret;
 
-	v.x = pixel_x - (env->width / 2);
-	v.y = pixel_y - (env->height / 2);
-	v.z = - (env->width / (2 * tan(30 / 2)));
-	vector_normalize(&v);
-	ray.destination.x = v.x - origin->x;
-	ray.destination.y = v.y - origin->y;
-	ray.destination.z = v.z - origin->z;
-	ray.origin.x = origin->x;
-	ray.origin.y = origin->y;
-	ray.origin.z = origin->z;
-	vector_normalize(&ray.destination);
-	//printf("Ray(%g, %g, %g)\n", ray.destination.x, ray.destination.y,
-	//       ray.destination.z);
-	do_intersection(env, &ray, pixel_x, pixel_y);
-}
-
-int	raytracer(t_env* env)
-{
-	Vector3D	origin;
-	int		pixel_x;
-	int		pixel_y;
-	SDL_Surface*	screen;
-
-	origin.x = 0;
-	origin.y = 0;
-	origin.z = 0;
-	pixel_x = 0;
-	pixel_y = 0;
-	id_print("Calculating");
-	while (pixel_y < env->height)
+	i = 0;
+	while (i < WORKER_COUNT)
 	{
-		throwray(env, &origin, pixel_x, pixel_y);
-		pixel_x = pixel_x + 1;
-		if (pixel_x == env->width)
-		{
-			id_print(".");
-			pixel_y = pixel_y + 1;
-			pixel_x = 0;
-		}
+		pthread_join(env->thread[i], &ret);
+		i = i + 1;
 	}
-	id_print("\n");
-	screen = (SDL_Surface*)env->screen;
-	SDL_UpdateRect(screen, 0, 0, 0, 0);
-	id_print("Printing\n");
-	return (0);
 }
 
 int	run(t_env* env)
 {
-	SDL_Event	event;
-
-	if (raytracer(env))
-		return (1);
-	SDL_WaitEvent(&event);
-	while (event.type != SDL_QUIT)
-		SDL_WaitEvent(&event);
+	id_print("Calculating ...\n");
+	join_thread(env);
+	render(env);
+	idx_run(env->screen);
+	idx_clear(env->screen);
 	return (0);
 }

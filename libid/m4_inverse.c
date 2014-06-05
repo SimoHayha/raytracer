@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "matrice.h"
 
-void	m4_struct_to_mat(MATRICE* matrice, MATRIX4 mat4)
+void	m4_struct_to_mat(t_matrice* matrice, double mat4[16])
 {
 	mat4[0] = matrice->a.x;
 	mat4[1] = matrice->a.y;
@@ -32,7 +32,7 @@ void	m4_checkcolumn(int* t, int* dst, int i)
 	}
 }
 
-void	m4_submat(MATRIX4 mr, MATRIX3 mb, int i, int j)
+void	m4_submat(double mr[16], double mb[9], int i, int j)
 {
 	int	ti;
 	int	tj;
@@ -55,12 +55,12 @@ void	m4_submat(MATRIX4 mr, MATRIX3 mb, int i, int j)
 	}
 }
 
-float	m4_det(MATRIX4 mr)
+float	m4_det(double mr[16])
 {
 	float	det;
 	float	result;
 	float	i;
-	MATRIX3	msub3;
+	double	msub3[9];
 	int	n;
 
 	n = 0;
@@ -75,10 +75,10 @@ float	m4_det(MATRIX4 mr)
 	return (result);
 }
 
-int	_m4_inverse(MATRIX4 mr, MATRIX4 ma)
+int	_m4_inverse(double mr[16], double ma[16])
 {
 	float	mdet;
-	MATRIX3	mtemp;
+	double	mtemp[3];
 	int	i;
 	int	j;
 	int	sign;

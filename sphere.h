@@ -1,17 +1,15 @@
 #ifndef __SPHERE_H__
 #define __SPHERE_H__
 
-#include "vector.h"
-#include "object.h"
+typedef struct	s_point	t_point;
 
 typedef struct	s_sphere
 {
-	Vector3D	position;
-	double		radius;
+	float			radius;
 }	t_sphere;
 
-typedef t_sphere	Sphere;
+typedef struct	s_env	t_env;
 
-int	add_sphere(Object** objects, char** line, int nb_word);
+int	new_sphere(t_env* env, char** input, int nb_words);
 
 #endif

@@ -39,6 +39,7 @@ void	id_print(const char* str, ...);
 void	skip_charset(char** str, char* charset);
 void	get_mat_translation(MATRICE* mat, t_point* p);
 void	mat_mult(MATRICE* mat, t_point* p, t_point* dest);
+void	div_vector(t_vector* v, t_vector* dest, double n);
 void	mult_vector(t_vector* v, t_vector* dest, double n);
 void	add_vector(t_vector* u, t_vector* v, t_vector* dest);
 void	sub_vector(t_vector* u, t_vector* v, t_vector* dest);
@@ -59,5 +60,7 @@ char*	id_strncpy(char* s1, char* s2, int n);
 char*	str_sep_str(char* path, char* file_name, char* sep);
 char**	id_strwordtab(char* str, char* charset, int* nbword);
 double	id_pow(double x, int y);
+void	m4_pointmult(double* res, double point[4], double mat[4][4]);
+void	copy_vector(t_vector* ret, t_vector* v);
 
 #endif

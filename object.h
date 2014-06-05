@@ -1,38 +1,32 @@
 #ifndef __OBJECT_H__
 #define __OBJECT_H__
 
-#include "ray.h"
+#include "type.h"
+#include "material.h"
+#include "matrix.h"
 
-enum
-{
-	OBJ_CAMERA,
-	OBJ_SPHERE,
-	OBJ_PLANE,
-	OBJ_CYLINDER
-};
+typedef struct	s_ray			t_ray;
+typedef struct	s_plane			t_plane;
+typedef struct	s_point			t_point;
+typedef struct	s_point			t_vector;
+typedef struct	s_object		t_object;
 
-#define CAMERA_ARG	6
-#define SPHERE_ARG	7
-#define PLANE_ARG	9
-#define CYLINDER_ARG	10
-
-typedef int	intersect(void* object, Ray* ray, double* coef);
+typedef int	inter(t_object*, t_ray*);
+typedef void	get_color(t_ray*, t_point*, t_object*, t_color*);
+typedef void	get_obj_normal(t_object*, t_vector*);
 
 typedef struct	s_object
 {
-	char			type;
+	t_point			pos;
+	t_type			obj_type;
+	t_material		material;
+	get_color*		color;
 	void*			object;
-	intersect*		intersect;
-	int			red;
-	int			green;
-	int			blue;
+	inter*			intersect;
+	t_transformation	transform;
 	struct s_object*	next;
 }	t_object;
 
-typedef struct	s_object	Object;
-
-Object*	get_new_object(void);
-Object*	add_object(Object* list, Object* new);
-void	remove_all_object(Object* list);
+void	get_normal(t_object* obj, t_point* inter, t_vector* normal, t_ray* ray);
 
 #endif

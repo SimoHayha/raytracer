@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "matrice.h"
 
-float	m3_det(MATRIX3 mat)
+float	m3_det(double mat[9])
 {
 	float	det;
 
@@ -11,7 +11,7 @@ float	m3_det(MATRIX3 mat)
 	return (det);
 }
 
-void	m3_identity(MATRIX3 mat)
+void	m3_identity(double mat[9])
 {
 	int	i;
 
@@ -26,7 +26,7 @@ void	m3_identity(MATRIX3 mat)
 	mat[8] = 1;
 }
 
-void	m3_inverse(MATRIX3 mr, MATRIX3 ma)
+void	m3_inverse(double mr[9], double ma[9])
 {
 	float	det;
 

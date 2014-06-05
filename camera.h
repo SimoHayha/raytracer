@@ -1,17 +1,30 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include "vector.h"
-#include "object.h"
+#include "libid/lib.h"
+#include "matrix.h"
+
+#define VIEWPLANE_WIDTH	0.30f
+
+typedef struct	s_transformation	t_transformation;
 
 typedef struct	s_camera
 {
-	Vector3D	origin;
-	Vector3D	sight;
+	t_point			pos;
+	t_point			origin;
+	t_vector		dir;
+	t_vector		up_vector;
+	t_vector		right_vector;
+	double			x_indent;
+	double			y_indent;
+	double			viewplane_dist;
+	double			viewplane_width;
+	double			viewplane_height;
+	t_transformation	transform;
 }	t_camera;
 
-typedef struct	s_camera	Camera;
+typedef struct	s_env	t_env;
 
-int	add_camera(Object** objects, char** line, int nb_word);
+int	fill_camera(t_env* env, char** input, int nb_words);
 
 #endif

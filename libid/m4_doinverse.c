@@ -1,7 +1,7 @@
 #include "lib.h"
 #include "matrice.h"
 
-void	m4_mat_to_struct(MATRICE* mat, MATRIX4 mat4)
+void	m4_mat_to_struct(t_matrice* mat, double mat4[16])
 {
 	matrice->a.x = mat4[0];
 	matrice->a.y = mat4[1];
@@ -20,10 +20,10 @@ void	m4_mat_to_struct(MATRICE* mat, MATRIX4 mat4)
 	matrice->p.z = mat4[14];
 	matrice->p.homogeneous = mat4[15];
 }
-int	m4_inverse(MATRICE* mat1, MATRICE* mat2)
+int	m4_inverse(t_matrice* mat1, t_matrice* mat2)
 {
-	MATRIX4	m1;
-	MATRIX4	m2;
+	double	m1[9];
+	double	m2[9];
 	int	ret;
 
 	m4_struct_to_mat(mat1, m1);
